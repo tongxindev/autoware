@@ -30,6 +30,18 @@ jobs:
             cat arm64.env | sed "/^#/d" >> $GITHUB_ENV
           fi
 
+      - name: Build 'autoware-core'
+        uses: ./.github/actions/docker-build-and-push
+        with:
+          bake-target: autoware-core
+          build-args: |
+            *.platform=linux/arm64
+            *.args.ROS_DISTRO=${{ env.rosdistro }}
+            *.args.CUDA_IMAGE_TAG=${{ env.cuda_image_tag }}
+            *.args.CUDNN_VERSION=${{ env.cudnn_version }}
+            *.args.TENSORRT_VERSION=${{ env.tensorrt_version }}
+          tag-suffix: -arm64
+
       - name: Build 'autoware-universe'
         uses: ./.github/actions/docker-build-and-push
         with:

@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.4.1-devel-ubuntu20.04 as devel
+FROM ubuntu:20.04 as devel
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ## Install apt packages
@@ -21,28 +21,11 @@ RUN mkdir -p ~/.ssh \
 
 ## Set up development environment
 RUN --mount=type=ssh \
-  ./setup-dev-env.sh -y --no-nvidia universe \
+  ./setup-dev-env.sh -y core \
   && mkdir src \
-  && vcs import src < autoware.repos \
+  # && vcs import src < autoware.repos \ # TODO: Prepare a repos file for Autoware Core
   && rosdep update \
   && DEBIAN_FRONTEND=noninteractive rosdep install -y --ignore-src --from-paths src --rosdistro galactic \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
-
-## Install cuDNN and TensorRT
-ARG CUDNN_VERSION=8.2.2.26-1+cuda11.4
-ARG TENSORRT_VERSION=8.2.2-1+cuda11.4
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
-  libcudnn8=$CUDNN_VERSION \
-  libcudnn8-dev=$CUDNN_VERSION \
-  libnvinfer8=$TENSORRT_VERSION \
-  libnvinfer-dev=$TENSORRT_VERSION \
-  libnvinfer-plugin8=$TENSORRT_VERSION \
-  libnvinfer-plugin-dev=$TENSORRT_VERSION \
-  libnvonnxparsers8=$TENSORRT_VERSION \
-  libnvonnxparsers-dev=$TENSORRT_VERSION \
-  libnvparsers8=$TENSORRT_VERSION \
-  libnvparsers-dev=$TENSORRT_VERSION \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
