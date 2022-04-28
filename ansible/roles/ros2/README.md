@@ -55,7 +55,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-a
 sudo apt update
 
 # Desktop Install
-rosdistro=rolling
+rosdistro=humble
 installation_type=desktop
 sudo apt install ros-${rosdistro}-${installation_type}
 

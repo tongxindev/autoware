@@ -17,7 +17,7 @@ For Universe, the `rosdistro` and `rmw_implementation` variable can also be foun
 ```bash
 # For details: https://docs.ros.org/en/rolling/How-To-Guides/Working-with-multiple-RMW-implementations.html
 sudo apt update
-rosdistro=rolling
+rosdistro=humble
 rmw_implementation=rmw_cyclonedds_cpp
 rmw_implementation_dashed=$(eval sed -e "s/_/-/g" <<< "${rmw_implementation}")
 sudo apt install ros-${rosdistro}-${rmw_implementation_dashed}
