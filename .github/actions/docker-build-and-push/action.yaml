@@ -50,27 +50,16 @@ runs:
         echo ::set-output name=tags::$tags_multiline
       shell: bash
 
-    - name: Docker meta for devel
-      id: meta-devel
+    - name: Docker meta for wit
+      id: meta-wit
       uses: docker/metadata-action@v3
       with:
         images: ghcr.io/${{ github.repository_owner }}/${{ inputs.bake-target }}
         tags: ${{ steps.set-docker-tags.outputs.tags }}
-        bake-target: docker-metadata-action-devel
+        bake-target: docker-metadata-action-wit
         flavor: |
           latest=false
           suffix=${{ inputs.tag-suffix }}
-
-    - name: Docker meta for prebuilt
-      id: meta-prebuilt
-      uses: docker/metadata-action@v3
-      with:
-        images: ghcr.io/${{ github.repository_owner }}/${{ inputs.bake-target }}
-        tags: ${{ steps.set-docker-tags.outputs.tags }}
-        bake-target: docker-metadata-action-prebuilt
-        flavor: |
-          latest=false
-          suffix=-prebuilt${{ inputs.tag-suffix }}
 
     - name: Login to GitHub Container Registry
       if: ${{ github.event_name != 'pull_request' }}

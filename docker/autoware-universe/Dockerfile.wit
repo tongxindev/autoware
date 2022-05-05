@@ -1,0 +1,26 @@
+FROM ghcr.io/autowarefoundation/autoware-universe:latest
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        vim htop lsof net-tools iputils-ping locales libgl1-mesa-dev \
+        libglu1-mesa-dev mesa-utils python3-pip python3-rosdep2 \
+        python3-vcstool python3-colcon-common-extensions usbutils libusb-dev \
+        tcpdump  netcat-openbsd ccache \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+#COPY n /usr/local/bin
+
+# Add user
+ENV USERNAME wit
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+#uid 1000 adduser -u 1000
+RUN adduser wit --disabled-password --gecos "wit,tongxin,2022"
+RUN adduser wit sudo
+RUN sudo usermod $USERNAME -aG dialout 
+RUN echo "wit ALL=(ALL) NOPASSWD:ALL " >> /etc/sudoers
+
+WORKDIR /home/$USERNAME/pilot
+
+ENTRYPOINT ["/entrypoint.sh"]

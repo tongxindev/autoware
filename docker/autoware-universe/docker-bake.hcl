@@ -1,19 +1,13 @@
 group "default" {
-  targets = ["devel", "prebuilt"]
+  targets = ["wit"]
 }
 
 // For docker/metadata-action
-target "docker-metadata-action-devel" {}
-target "docker-metadata-action-prebuilt" {}
+target "docker-metadata-action-wit" {}
 
-target "devel" {
-  inherits = ["docker-metadata-action-devel"]
-  dockerfile = "docker/autoware-universe/Dockerfile"
-  target = "devel"
-}
 
-target "prebuilt" {
-  inherits = ["docker-metadata-action-prebuilt"]
-  dockerfile = "docker/autoware-universe/Dockerfile"
-  target = "prebuilt"
+target "wit" {
+  inherits = ["docker-metadata-action-wit"]
+  dockerfile = "docker/autoware-universe/Dockerfile.wit"
+  target = "wit"
 }
